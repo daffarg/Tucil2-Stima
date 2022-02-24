@@ -9,8 +9,6 @@ def partisiMatrixAbsisBased(M, i, j):
     pivot_y = M[i][1]
     p = i
     q = j + 1
-
-    count = 1
     
     while True:
         while True:
@@ -42,7 +40,8 @@ def quickSortAbsis(M, i , j):
 
 def bubbleSortAbsis(M, isInc):
     '''
-        Mengurutkan matriks M berdasarkan absis yang teurut menaik
+        Mengurutkan matriks M berdasarkan absis yang teurut menaik jika isInc True,
+        berdasarkan absis yang terurut menurun jika isInc False
         menggunakan algoritma bubble sort
         Jika ada nilai absis yang sama, maka diurutkan dengan nilai ordinat yang menaik
     '''
@@ -56,4 +55,3 @@ def bubbleSortAbsis(M, isInc):
                 temp = M[k]
                 M[k] = M[k+1]
                 M[k+1] = temp
-

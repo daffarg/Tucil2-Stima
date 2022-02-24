@@ -1,18 +1,10 @@
-from tkinter import Y
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn import datasets
-from scipy.spatial import ConvexHull
-from sort import bubbleSortAbsis, quickSortAbsis
+from sort import bubbleSortAbsis
 
-#sys.setrecursionlimit(10**7) # max depth of recursion
-#threading.stack_size(2**27)  # new thread will get stack of such size
-data = datasets.load_iris()
-# create a DataFrame
-df = pd.DataFrame(data.data, columns=data.feature_names)
-df['Target'] = pd.DataFrame(data.target)
-# kolom target adalah nama2 bunga --> data.target_names = ['setosa' 'versicolor' 'virginica']
+# data = datasets.load_iris()
+# # create a DataFrame
+# df = pd.DataFrame(data.data, columns=data.feature_names)
+# df['Target'] = pd.DataFrame(data.target)
+# # kolom target adalah nama2 bunga --> data.target_names = ['setosa' 'versicolor' 'virginica']
 
 def checkPointPosition(p1, p2, p3):
     '''
@@ -63,9 +55,13 @@ def getRightSide(M, p1, p2):
     return rightSide
 
 def convexHull(M, p1, p2, points, side):
-    # menemukan titik dgn jarak terjauh dari garis p1 dan p2
-    # cek semua titik untuk memastikan tidak ada titik yang sama
-    #isUnique = len(M) == len(set(M))
+    '''
+        Prosedur rekursif untuk mencari titik2 yg membentuk convex hull
+        Menerima masukan array of titik M, titik p1 dan p2 sbg titik ekstrem,
+        Titik2 hasil disimpan dalam points, side menentukan bagian yg
+        dihitung (bernilai 1 jika sisi kiri atau -1 jika sisi kanan)
+
+    '''
     max = 0
     max_point = [-999,-999]
     for point in M:
@@ -81,6 +77,7 @@ def convexHull(M, p1, p2, points, side):
             points.append(p2)
         return
 
+    # Pembagian titik2 ke dalam dua sisi 
     if side == 1:
         side1 = getLeftSide(M, p1, max_point)
         side2 = getLeftSide(M, max_point, p2)
@@ -88,43 +85,45 @@ def convexHull(M, p1, p2, points, side):
         side1 = getRightSide(M, p1, max_point)
         side2 = getRightSide(M, max_point, p2)
 
+    # rekurens untuk pada dua sisi yang terbentuk akibat pembagian 
     convexHull(side1,p1,max_point,points,side)
     convexHull(side2,max_point,p2,points,side)
 
 def findConvexHull(M):
-    # quickSortAbsis(M, 0, len(M)-1)
+    '''
+        Menerima masukan array of titik yg ingin dicari convex hull-nya. 
+        Mengembalikan array of titik yg membentuk convex hull dari array of titik M
+    '''
     bubbleSortAbsis(M, True)
     points = []
     leftSide = getLeftSide(M, M[0], M[len(M)-1])
     rightSide = getRightSide(M, M[0], M[len(M)-1])
-    convexHull(leftSide, M[0], M[len(M)-1], points, 1) # sisi atas
-    convexHull(rightSide, M[0], M[len(M)-1], points, -1) # sisi bawah
+
+    # penerapan Divide & Conquer menentukan titik2 pada sisi atas (kiri) atau bawah (kanan)
+    convexHull(leftSide, M[0], M[len(M)-1], points, 1) # sisi atas (kiri)
+    convexHull(rightSide, M[0], M[len(M)-1], points, -1) # sisi bawah (kanan)
     bubbleSortAbsis(points, True)
-    print(points)
-    
-    # Plotting
+
+    # Penyusunan dan pengurutan ulang array of titik hasil convex hull untuk diplot  
     p = points[0]
     q = points[len(points)-1]
-    print("Cek point:", checkPointPosition(p, q, p))
-    leftSide = getLeftSide(points, p, q)
-    print("Left side: ", leftSide)
-    rightSide = getRightSide(points, p, q)
-    print("Right side: ", rightSide)
+    leftSide = getLeftSide(points, p, q) # titik2 yg berada di kiri (atau atas) garis yg dibentuk oleh p dan q
+    rightSide = getRightSide(points, p, q) # titik2 yg berada di kanan (atau bawah) garis yg dibentuk oleh p dan q
     rightSide = rightSide + [p, q]
     bubbleSortAbsis(rightSide,True)
     bubbleSortAbsis(leftSide,False)
     result = rightSide + leftSide
-    print(result)
-    result.append(result[0])
+    result.append(result[0]) # penambahan dgn elemen pertama untuk kebutuhan plotting
     return result
-
 
 bucket = df[df['Target'] == 0] # membagi 3 dataset iris sesuai target (0, 1, 2)
 bucket = bucket.iloc[:,[0,1]].values # mengambil atribut sepal width dan length lalu menjadikannya sbg array 2 dimensi
 
-result = findConvexHull(bucket.tolist())
-plt.plot(result)
-plt.show()
+# result = findConvexHull(bucket.tolist())
+# result = np.array(result)
+# plt.plot(result[:,0],result[:,1])
+# plt.scatter(bucket[:, 0], bucket[:, 1], label=data.target_names[0])
+# plt.show()
 
 # array_np = np.array(result)
 # x, y = array_np.T
