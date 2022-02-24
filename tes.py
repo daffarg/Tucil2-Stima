@@ -62,7 +62,7 @@ def getRightSide(M, p1, p2):
             rightSide.append(point)
     return rightSide
 
-def convexHull(M, p1, p2, simplices, side):
+def convexHull(M, p1, p2, points, side):
     # menemukan titik dgn jarak terjauh dari garis p1 dan p2
     # cek semua titik untuk memastikan tidak ada titik yang sama
     #isUnique = len(M) == len(set(M))
@@ -75,10 +75,10 @@ def convexHull(M, p1, p2, simplices, side):
             max_point = point
 
     if (max == 0): # tidak ditemukan titik lagi 
-        if (p1 not in simplices):
-            simplices.append(p1)
-        if (p2 not in simplices):
-            simplices.append(p2)
+        if (p1 not in points):
+            points.append(p1)
+        if (p2 not in points):
+            points.append(p2)
         return
 
     if side == 1:
@@ -88,20 +88,41 @@ def convexHull(M, p1, p2, simplices, side):
         side1 = getRightSide(M, p1, max_point)
         side2 = getRightSide(M, max_point, p2)
 
-    convexHull(side1,p1,max_point,simplices,side)
-    convexHull(side2,max_point,p2,simplices,side)
+    convexHull(side1,p1,max_point,points,side)
+    convexHull(side2,max_point,p2,points,side)
 
 def findConvexHull(M):
     # quickSortAbsis(M, 0, len(M)-1)
     bubbleSortAbsis(M)
-    simplices = []
+    points = []
     leftSide = getLeftSide(M, M[0], M[len(M)-1])
     rightSide = getRightSide(M, M[0], M[len(M)-1])
-    convexHull(leftSide, M[0], M[len(M)-1], simplices, 1) # sisi atas
-    convexHull(rightSide, M[0], M[len(M)-1], simplices, -1) # sisi bawah
-    print(simplices)
+    convexHull(leftSide, M[0], M[len(M)-1], points, 1) # sisi atas
+    convexHull(rightSide, M[0], M[len(M)-1], points, -1) # sisi bawah
+    bubbleSortAbsis(points)
+    
+    # Plotting
+    p = points[0]
+    q = points[len(points-1)]
+    leftSide = getLeftSide(points, p, q)
+    rightSide = getRightSide(points, p, q)
+
 
 bucket = df[df['Target'] == 0] # membagi 3 dataset iris sesuai target (0, 1, 2)
 bucket = bucket.iloc[:,[0,1]].values # mengambil atribut sepal width dan length lalu menjadikannya sbg array 2 dimensi
 
-#findConvexHull(bucket.tolist())
+# result = findConvexHull(bucket.tolist())
+
+bucket = bucket[:10].tolist()
+print(bucket)
+bubbleSortAbsis(bucket,True)
+print(bucket)
+bubbleSortAbsis(bucket,False)
+print(bucket)
+
+# array_np = np.array(result)
+# x, y = array_np.T
+# plt.scatter(x,y)
+# plt.show()
+# plt.plot(x,y)
+# plt.show()

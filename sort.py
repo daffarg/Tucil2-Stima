@@ -40,7 +40,7 @@ def quickSortAbsis(M, i , j):
         quickSortAbsis(M,i,k-1)
         quickSortAbsis(M,k + 1,j)
 
-def bubbleSortAbsis(M):
+def bubbleSortAbsis(M, isInc):
     '''
         Mengurutkan matriks M berdasarkan absis yang teurut menaik
         menggunakan algoritma bubble sort
@@ -48,7 +48,12 @@ def bubbleSortAbsis(M):
     '''
     for i in range(len(M)-1):
         for k in range(0, len(M)-1-i):
-            if (M[k+1][0] < M[k][0] or (M[k+1][0] == M[k][0] and M[k+1][1] < M[k][1])):
+            if (isInc):
+                test = M[k+1][0] < M[k][0] or (M[k+1][0] == M[k][0] and M[k+1][1] < M[k][1])
+            else:
+                test = M[k+1][0] > M[k][0] or (M[k+1][0] == M[k][0] and M[k+1][1] > M[k][1])
+            if (test):
                 temp = M[k]
                 M[k] = M[k+1]
                 M[k+1] = temp
+
