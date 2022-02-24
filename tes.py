@@ -22,7 +22,7 @@ def checkPointPosition(p1, p2, p3):
         -1 jika di bawahnya, 0 jika tepat pada garis
     '''
 
-    det = p1[0]*p2[1] + p3[0]*p1[1] + p2[0]*p3[1] - p3[0]*p2[1] - p2[0]*p1[1] - p1[0]*p3[1]
+    det = (p3[1] - p1[1]) * (p2[0] - p1[0]) - (p2[1] - p1[1]) * (p3[0] - p1[0])
     if (det > 0):
         return 1
     elif (det < 0):
@@ -93,32 +93,38 @@ def convexHull(M, p1, p2, points, side):
 
 def findConvexHull(M):
     # quickSortAbsis(M, 0, len(M)-1)
-    bubbleSortAbsis(M)
+    bubbleSortAbsis(M, True)
     points = []
     leftSide = getLeftSide(M, M[0], M[len(M)-1])
     rightSide = getRightSide(M, M[0], M[len(M)-1])
     convexHull(leftSide, M[0], M[len(M)-1], points, 1) # sisi atas
     convexHull(rightSide, M[0], M[len(M)-1], points, -1) # sisi bawah
-    bubbleSortAbsis(points)
+    bubbleSortAbsis(points, True)
+    print(points)
     
     # Plotting
     p = points[0]
-    q = points[len(points-1)]
+    q = points[len(points)-1]
+    print("Cek point:", checkPointPosition(p, q, p))
     leftSide = getLeftSide(points, p, q)
+    print("Left side: ", leftSide)
     rightSide = getRightSide(points, p, q)
+    print("Right side: ", rightSide)
+    rightSide = rightSide + [p, q]
+    bubbleSortAbsis(rightSide,True)
+    bubbleSortAbsis(leftSide,False)
+    result = rightSide + leftSide
+    print(result)
+    result.append(result[0])
+    return result
 
 
 bucket = df[df['Target'] == 0] # membagi 3 dataset iris sesuai target (0, 1, 2)
 bucket = bucket.iloc[:,[0,1]].values # mengambil atribut sepal width dan length lalu menjadikannya sbg array 2 dimensi
 
-# result = findConvexHull(bucket.tolist())
-
-bucket = bucket[:10].tolist()
-print(bucket)
-bubbleSortAbsis(bucket,True)
-print(bucket)
-bubbleSortAbsis(bucket,False)
-print(bucket)
+result = findConvexHull(bucket.tolist())
+plt.plot(result)
+plt.show()
 
 # array_np = np.array(result)
 # x, y = array_np.T
