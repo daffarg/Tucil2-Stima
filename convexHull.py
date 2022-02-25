@@ -1,11 +1,5 @@
 from sort import bubbleSortAbsis
 
-# data = datasets.load_iris()
-# # create a DataFrame
-# df = pd.DataFrame(data.data, columns=data.feature_names)
-# df['Target'] = pd.DataFrame(data.target)
-# # kolom target adalah nama2 bunga --> data.target_names = ['setosa' 'versicolor' 'virginica']
-
 def checkPointPosition(p1, p2, p3):
     '''
         p1, p2, p3 adalah matriks dgn 2 elemen (elemen pertama absis, elemen kedua oordinat)
@@ -115,19 +109,3 @@ def findConvexHull(M):
     result = rightSide + leftSide
     result.append(result[0]) # penambahan dgn elemen pertama untuk kebutuhan plotting
     return result
-
-bucket = df[df['Target'] == 0] # membagi 3 dataset iris sesuai target (0, 1, 2)
-bucket = bucket.iloc[:,[0,1]].values # mengambil atribut sepal width dan length lalu menjadikannya sbg array 2 dimensi
-
-# result = findConvexHull(bucket.tolist())
-# result = np.array(result)
-# plt.plot(result[:,0],result[:,1])
-# plt.scatter(bucket[:, 0], bucket[:, 1], label=data.target_names[0])
-# plt.show()
-
-# array_np = np.array(result)
-# x, y = array_np.T
-# plt.scatter(x,y)
-# plt.show()
-# plt.plot(x,y)
-# plt.show()
