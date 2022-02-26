@@ -88,7 +88,7 @@ def findConvexHull(M):
         Menerima masukan array of titik yg ingin dicari convex hull-nya. 
         Mengembalikan array of titik yg membentuk convex hull dari array of titik M
     '''
-    bubbleSortAbsis(M, True)
+    M.sort(key=lambda k: [k[0], k[1]])
     points = []
     leftSide = getLeftSide(M, M[0], M[len(M)-1])
     rightSide = getRightSide(M, M[0], M[len(M)-1])
@@ -96,7 +96,7 @@ def findConvexHull(M):
     # penerapan Divide & Conquer menentukan titik2 pada sisi atas (kiri) atau bawah (kanan)
     convexHull(leftSide, M[0], M[len(M)-1], points, 1) # sisi atas (kiri)
     convexHull(rightSide, M[0], M[len(M)-1], points, -1) # sisi bawah (kanan)
-    bubbleSortAbsis(points, True)
+    points.sort(key=lambda k: [k[0], k[1]])
 
     # Penyusunan dan pengurutan ulang array of titik hasil convex hull untuk diplot  
     p = points[0]
@@ -104,8 +104,8 @@ def findConvexHull(M):
     leftSide = getLeftSide(points, p, q) # titik2 yg berada di kiri (atau atas) garis yg dibentuk oleh p dan q
     rightSide = getRightSide(points, p, q) # titik2 yg berada di kanan (atau bawah) garis yg dibentuk oleh p dan q
     rightSide = rightSide + [p, q]
-    bubbleSortAbsis(rightSide,True)
-    bubbleSortAbsis(leftSide,False)
+    rightSide.sort(key=lambda k: [k[0], k[1]])
+    leftSide.sort(key=lambda k: [k[0], k[1]], reverse=True)
     result = rightSide + leftSide
     result.append(result[0]) # penambahan dgn elemen pertama untuk kebutuhan plotting
     return result
