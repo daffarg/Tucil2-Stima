@@ -1,5 +1,3 @@
-from sort import bubbleSortAbsis
-
 def checkPointPosition(p1, p2, p3):
     '''
         p1, p2, p3 adalah matriks dgn 2 elemen (elemen pertama absis, elemen kedua oordinat)
