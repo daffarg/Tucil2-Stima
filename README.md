@@ -18,12 +18,12 @@ Tugas ini merupakan implementasi Convex Hull untuk Visualisasi Tes Linear Separa
 - Matplotlib 3.4.3 https://matplotlib.org/
 - Scikit-learn 1.0.2 https://scikit-learn.org/stable/
 - Jupyter 7.28.0 https://jupyter.org/
-- Visual Studio Code (disarankan) https://code.visualstudio.com/
+- Visual Studio Code 1.64.2 (disarankan) https://code.visualstudio.com/
 
 ## Instalasi Tools
 
 1. Install Python yang dapat diunduh di https://www.python.org/downloads/
-2. Install numpy, matplotlib, dan scikit-learn dengan menjalankan beberapa perintah di bawah ini pada command line
+2. Install pustaka numpy, matplotlib, scikit-learn, dan jupyter dengan menjalankan beberapa perintah di bawah ini pada command line
    ```shell
    pip install numpy
    pip install matplotlib
