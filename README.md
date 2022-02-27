@@ -36,10 +36,10 @@ Tugas ini merupakan implementasi Convex Hull untuk Visualisasi Tes Linear Separa
 
 ## How to Run
 
-1. Buka file main.ipynb
+1. Buka file `main.ipynb` pada folder `src`
 2. Klik opsi Run All pada pilihan yang terdapat di atas source code
    ![image](https://user-images.githubusercontent.com/84183006/155882943-3e652168-abb3-40cd-bfdc-dcb77edf85a1.png)
 3. Convex hull akan tampil sesuai sel-sel kodenya
 
 Alternatif lain: 
-Menggunakan Google Collab yang dapat dibaca pada tautan https://stackoverflow.com/questions/48961866/how-to-run-a-downloaded-jupyter-notebook-on-google-colaboratory
+Menggunakan Google Colab yang dapat dibaca pada tautan https://stackoverflow.com/questions/48961866/how-to-run-a-downloaded-jupyter-notebook-on-google-colaboratory
